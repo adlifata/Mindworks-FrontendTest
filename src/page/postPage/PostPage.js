@@ -8,8 +8,6 @@ import PostCard from "../../component/postCard/postCard";
 import Skeleton from "react-loading-skeleton";
 import CommentList from "./CommentList";
 
-
-
 const fetchPost = (postId) => {
   return axios
     .get("https://jsonplaceholder.typicode.com/posts/" + postId)
@@ -24,7 +22,7 @@ const fetchPost = (postId) => {
 };
 
 const PostPageContainer = styled.div`
-  ${tw`h-full flex flex-col items-center justify-center `};
+  ${tw`h-full flex flex-col items-center justify-center`};
 `;
 
 const SkeletonContainer = styled.div`

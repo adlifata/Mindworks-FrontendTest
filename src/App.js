@@ -3,6 +3,7 @@ import { NavBar } from "./component/navBar";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import PostPage from "./page/postPage/PostPage";
 import MainPage from "./page/mainPage/MainPage";
+import UnderDevelopemntPage from "./page/UnderDevelopemntPage";
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
           </Route>
           <Route exact path="/post/:postId">
             <PostPage />
+            {/* <MainPage /> */}
+          </Route>
+          <Route exact path="/lost">
+            <UnderDevelopemntPage />
             {/* <MainPage /> */}
           </Route>
         </Switch>

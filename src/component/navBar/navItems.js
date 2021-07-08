@@ -14,6 +14,9 @@ const ListContainer = styled.ul`
     `}
 `;
 
+const Text = styled.p`
+ ${tw`transform transition duration-200 hover:text-yellow-500 active:text-black`};
+`
 const NavItem = styled.li`
   ${tw`
         text-xs
@@ -40,7 +43,7 @@ const NavItem = styled.li`
 `;
 
 export function NavItems() {
-  const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
+  const isMobile = useMediaQuery({ maxWidth: SCREENS.md });
 
   if (isMobile)
     return (
@@ -52,13 +55,19 @@ export function NavItems() {
             </Link>
           </NavItem>
           <NavItem menu>
-            <a href="/soon1">Cars</a>
+            <Link to={`/lost`}>
+              <p>Service</p>
+            </Link>
           </NavItem>
           <NavItem menu>
-            <a href="/soon2">Services</a>
+            <Link to={`/lost`}>
+              <p>Report</p>
+            </Link>
           </NavItem>
           <NavItem menu>
-            <a href="/soon3">Contact Us</a>
+            <Link to={`/lost`}>
+              <p>Contact Us</p>
+            </Link>
           </NavItem>
         </ListContainer>
       </Menu>
@@ -68,17 +77,23 @@ export function NavItems() {
     <ListContainer>
       <NavItem>
         <Link to={`/`}>
-          <p>Home</p>
+          <Text>Home</Text>
         </Link>
       </NavItem>
       <NavItem>
-        <a href="#">Cars</a>
+        <Link to={`/lost`}>
+          <Text>Service</Text>
+        </Link>
       </NavItem>
       <NavItem>
-        <a href="#">Services</a>
+        <Link to={`/lost`}>
+          <Text>Report</Text>
+        </Link>
       </NavItem>
       <NavItem>
-        <a href="#">Contact Us</a>
+        <Link to={`/lost`}>
+          <Text>Contact Us</Text>
+        </Link>
       </NavItem>
     </ListContainer>
   );

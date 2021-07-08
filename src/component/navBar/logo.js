@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import CarLogoImg from "../../aseets/car-logo.png";
+import ChatLogo from "../../aseets/chat.png";
 import tw from "twin.macro";
+import { Link } from "react-router-dom";
+
 
 const LogoContainer = styled.div`
   ${tw`
@@ -34,11 +36,13 @@ const Image = styled.div`
 
 export function Logo() {
   return (
-    <LogoContainer>
-      <Image>
-        <img src={CarLogoImg} alt="car_logo" />
-      </Image>
-      <LogoText>Comment Management</LogoText>
-    </LogoContainer>
+    <Link to={`/`}>
+      <LogoContainer>
+        <Image>
+          <img src={ChatLogo} alt="car_logo" />
+        </Image>
+        <LogoText>Comment Management</LogoText>
+      </LogoContainer>
+    </Link>
   );
 }

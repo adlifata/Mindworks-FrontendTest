@@ -1,27 +1,18 @@
-import React from 'react'
+import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import tw from "twin.macro";
 import styled from "styled-components";
 import Skeleton from "react-loading-skeleton";
-import PostCard from "../../component/postCard/postCard";
+import CommentCard from "../../component/comment/commentCard";
 
+const CommentListContainer = styled.div`
+  ${tw` flex flex-col w-full max-w-full px-10 md:max-w-3xl lg:max-w-5xl items-start lg:mt-4 cursor-default`};
+`;
 
-const fetchComment = (postId) => {
-    return axios
-      .get("https://jsonplaceholder.typicode.com/comments?postId=" + postId)
-      .then((res) => {
-        //   console.log(res.data);
-        return res.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const CommentHeaderContainer = styled.div`
-  ${tw` flex flex-col w-full max-w-sm md:max-w-xl lg:max-w-4xl items-start lg:mt-4 cursor-default`};
+const CommentHeaderContainer = styled.div`
+  ${tw`w-full flex flex-col max-w-full lg:flex-row lg:justify-between `};
 `;
 
 const CommentHeader = styled.h2`
@@ -37,44 +28,104 @@ const PostIdLabel = styled.div`
 `;
 
 const SkeletonContainer = styled.div`
-  ${tw`h-full mx-4 lg:mx-10`};
+  ${tw`h-full mx-4 lg:mx-10 w-full`};
 `;
 
-function CommentList() {
-    const { postId } = useParams();
-    const [comments, setComments] = useState([]);
+const SearchBoxContainer = styled.div`
+  ${tw` h-full w-full md:max-w-screen-sm`};
+`;
 
-    useEffect(() => {
-        fetchComment(postId).then((apiComments) => {
-          setComments(apiComments);
-        });
-        
-      }, []);
-    return comments != "" ? (
-        <CommentHeaderContainer>
-        <CommentHeader>{comments.length} Comments</CommentHeader>
-        <PostIdContainer>
-          <PostIdLabel>Post #{postId}</PostIdLabel>
-        </PostIdContainer>
-        <h2>Belom ini test display aja comment nya ea</h2>
-        {comments.map((comments, index) => {
-        return (
-          <PostCard
-            key={comments.id}
-            postId={comments.id}
-            userId={comments.id}
-            title={comments.name}
-            body={comments.body}
-            selected={true}
-          />
-        );
-      })}
-      </CommentHeaderContainer>
-    ): (
-        <SkeletonContainer>
-          <Skeleton count={5} />
-        </SkeletonContainer>
+const CommentBodyContainer = styled.div`
+  ${tw`my-10 bg-white flex flex-col shadow-md rounded-lg`};
+`;
+
+const fetchComment = (postId) => {
+  return axios
+    .get("https://jsonplaceholder.typicode.com/comments?postId=" + postId)
+    .then((res) => {
+      //   console.log(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+function CommentList() {
+  const { postId } = useParams();
+  const [comments, setComments] = useState([]);
+  const [filteredComments, setFilteredComments] = useState([]);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    fetchComment(postId).then((apiComments) => {
+      setComments(apiComments);
+      setFilteredComments(apiComments);
+    });
+    setInput("");
+  }, []);
+
+  const filterComment = (input) => {
+    let loweredInput = input.toLowerCase();
+    let result = [];
+
+    result = comments.filter((data) => {
+      return (
+        data.name.toLowerCase().search(loweredInput) != -1 ||
+        data.email.toLowerCase().search(loweredInput) != -1 ||
+        data.body.toLowerCase().search(loweredInput) != -1
       );
+    });
+
+    setFilteredComments(result);
+  };
+
+  return comments != "" ? (
+    <CommentListContainer>
+      <CommentHeaderContainer>
+        <div>
+          <CommentHeader>{comments.length} Comments</CommentHeader>
+          <PostIdContainer>
+            <PostIdLabel>Post #{postId}</PostIdLabel>
+          </PostIdContainer>
+        </div>
+        <SearchBoxContainer>
+          <div className="w-full">
+            <input
+              className="w-full max-w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+              type="text"
+              placeholder="Filter"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+                filterComment(e.target.value);
+              }}
+            ></input>
+          </div>
+        </SearchBoxContainer>
+      </CommentHeaderContainer>
+      <CommentBodyContainer>
+        {filteredComments.map((filteredComments, index) => {
+          return (
+            <CommentCard
+              key={filteredComments.id}
+              commentId={filteredComments.id}
+              postId={filteredComments.postId}
+              name={filteredComments.name}
+              email={filteredComments.email}
+              body={filteredComments.body}
+            />
+          );
+        })}
+      </CommentBodyContainer>
+    </CommentListContainer>
+  ) : (
+    <CommentListContainer>
+      <SkeletonContainer>
+        <Skeleton count={5} />
+      </SkeletonContainer>
+    </CommentListContainer>
+  );
 }
 
-export default CommentList
+export default CommentList;

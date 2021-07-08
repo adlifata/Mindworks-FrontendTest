@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const CardContainer = styled.div`
-  ${tw`bg-white shadow-md rounded-lg my-9 mx-7 lg:mx-4 lg:my-7 cursor-pointer transform transition duration-200 hover:scale-105 active:scale-100`};
+  ${tw`bg-white shadow-md rounded-lg my-9 mx-7  lg:mx-4 lg:my-7 cursor-pointer transform transition duration-200 hover:scale-105 active:scale-100`};
 `;
 
 const CardContainerSelected = styled.div`
-  ${tw`bg-white shadow-md rounded-lg my-9 mx-7 lg:mx-4 lg:my-7`};
+  ${tw`bg-white shadow-md rounded-lg my-9 mx-7  lg:mx-4 lg:my-7`};
 `;
 
 const Card = styled.div`
